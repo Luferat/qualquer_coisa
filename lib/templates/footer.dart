@@ -1,18 +1,34 @@
 import 'package:flutter/material.dart';
 
 class MyFooter extends StatelessWidget implements PreferredSizeWidget {
-
-  const MyFooter({super.key,});
+  const MyFooter({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      child: Row(
+    return BottomAppBar(
+      height: 50.0,
+      padding: EdgeInsetsGeometry.zero,
+      color: Colors.green[800],
+      child: SizedBox(
+        height: 40.0,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            IconButton(icon: Icon(Icons.home), onPressed: () {  },),
-            Text('© 2026 Joca da Silva'),
-            IconButton(icon: Icon(Icons.arrow_circle_up), onPressed: () {  },)
-          ]
+            IconButton(
+              icon: Icon(Icons.home),
+              color: Colors.white,
+              iconSize: 30.0,
+              onPressed: () {},
+            ),
+            Text('© 2026 Joca da Silva', style: TextStyle(color: Colors.white)),
+            IconButton(
+              icon: Icon(Icons.arrow_circle_up),
+              color: Colors.white,
+              iconSize: 30.0,
+              onPressed: () {},
+            ),
+          ],
+        ),
       ),
     );
   }
