@@ -1,4 +1,3 @@
-// lib/templates/drawer.dart
 import 'package:flutter/material.dart';
 
 class MyDrawer extends StatelessWidget {
@@ -6,40 +5,54 @@ class MyDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Essas variáveis seriam substituídas depois pelo Firebase Auth
-    // Por enquanto vamos simular estados possíveis
-    const bool isLoggedIn = false; // ← mude para true para testar logado
-    const String displayName = "André Oliveira"; // null quando não logado
-    const String photoUrl = "https://randomuser.me/api/portraits/men/45.jpg"; // null quando anônimo
-    const String email = "exemplo@email.com";
+    // --- ÁREA DE SIMULAÇÃO DE DADOS (Substituir pelo Firebase futuramente) ---
+
+    // Mude para 'true' para ver como fica o menu quando o usuário está logado
+    bool isLogged = true;
+
+    // Dados do usuário (virão do Firebase Authentication)
+    String userName = isLogged ? "Joca da Silva" : "Usuário Anônimo";
+    String userEmail = isLogged ? "joca@email.com" : "Clique aqui para entrar";
+    String? photoUrl = isLogged ? "https://i.pravatar.cc/300" : null;
+    // -------------------------------------------------------------------------
 
     return Drawer(
-      child: Column(
+      child: ListView(
+        // Remove o padding padrão para o cabeçalho tocar o topo da tela
+        padding: EdgeInsets.zero,
         children: [
-          // Cabeçalho do Drawer (UserAccountsDrawerHeader)
+          // Cabeçalho do Drawer (Área do Usuário)
           UserAccountsDrawerHeader(
-            accountName: Text(
-              isLoggedIn ? (displayName ?? "Usuário") : "Visitante",
-              style: const TextStyle(fontWeight: FontWeight.bold),
-            ),
-            accountEmail: Text(
-              isLoggedIn ? email : "Não autenticado",
-            ),
-            currentAccountPicture: CircleAvatar(
-              backgroundColor: Colors.grey[300],
-              backgroundImage: NetworkImage(photoUrl),
-              child: null,
-            ),
             decoration: BoxDecoration(color: Colors.green[800]),
+            accountName: Text(userName),
+            accountEmail: Text(userEmail),
+            currentAccountPicture: CircleAvatar(
+              backgroundColor: Colors.white,
+              child: photoUrl != null
+                  ? ClipOval(child: Image.network(photoUrl))
+                  : const Icon(Icons.person, size: 40, color: Colors.grey),
+            ),
+            // Ação ao clicar na área do usuário (Login ou Perfil)
+            onDetailsPressed: () {
+              if (!isLogged) {
+                // Futuro: Navigator.pushNamed(context, '/login');
+                print("Ir para tela de Login");
+              } else {
+                // Futuro: Mostrar detalhes da conta ou Logout
+                print("Ver perfil do usuário");
+              }
+            },
           ),
 
-          // Itens do menu
+          // --- Itens do Menu ---
           ListTile(
             leading: const Icon(Icons.home),
             title: const Text('Início'),
             onTap: () {
-              // Já estamos na rota '/' então normalmente só fecha
+              // Fecha o drawer antes de navegar
               Navigator.pop(context);
+              // Navega para a rota home
+              Navigator.pushNamed(context, '/');
             },
           ),
 
@@ -48,10 +61,10 @@ class MyDrawer extends StatelessWidget {
             title: const Text('Contatos'),
             onTap: () {
               Navigator.pop(context);
+              // Como a rota '/contacts' ainda não existe no main.dart,
+              // isso dará erro se clicar agora.
               // Futuramente: Navigator.pushNamed(context, '/contacts');
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text('Em desenvolvimento...')),
-              );
+              print("Navegar para Contatos");
             },
           ),
 
@@ -61,42 +74,20 @@ class MyDrawer extends StatelessWidget {
             onTap: () {
               Navigator.pop(context);
               // Futuramente: Navigator.pushNamed(context, '/about');
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text('Em desenvolvimento...')),
-              );
+              print("Navegar para Sobre");
             },
           ),
 
-          const Spacer(),
+          // Linha divisória estética
+          const Divider(),
 
-          // Área inferior - Login / Logout
-          if (!isLoggedIn)
+          // Exemplo de botão de Sair (só aparece se estiver logado)
+          if (isLogged)
             ListTile(
-              leading: const Icon(Icons.login),
-              title: const Text('Fazer Login'),
-              tileColor: Colors.grey[100],
+              leading: const Icon(Icons.logout, color: Colors.red),
+              title: const Text('Sair', style: TextStyle(color: Colors.red)),
               onTap: () {
-                Navigator.pop(context);
-                // Futuramente: aqui chamaria o login com Google
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    content: Text('Login será implementado em breve'),
-                  ),
-                );
-              },
-            )
-          else
-            ListTile(
-              leading: const Icon(Icons.logout),
-              title: const Text('Sair'),
-              tileColor: Colors.red[50],
-              textColor: Colors.red[900],
-              iconColor: Colors.red[900],
-              onTap: () {
-                Navigator.pop(context);
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Logout simulado')),
-                );
+                print("Executar logout do Firebase");
               },
             ),
         ],
