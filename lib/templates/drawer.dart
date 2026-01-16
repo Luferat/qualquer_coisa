@@ -1,3 +1,5 @@
+// lib\templates\drawer.dart
+
 import 'package:flutter/material.dart';
 
 class MyDrawer extends StatelessWidget implements PreferredSizeWidget {
