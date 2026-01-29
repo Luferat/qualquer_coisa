@@ -38,8 +38,7 @@ class MyDrawer extends StatelessWidget implements PreferredSizeWidget {
             // Ação ao clicar na área do usuário (Login ou Perfil)
             onDetailsPressed: () {
               if (!isLogged) {
-                // Futuro: Navigator.pushNamed(context, '/login');
-                print("Ir para tela de Login");
+                Navigator.pushNamed(context, '/login');
               } else {
                 // Futuro: Mostrar detalhes da conta ou Logout
                 print("Ver perfil do usuário");
