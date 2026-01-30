@@ -1,5 +1,6 @@
-import 'package:flutter/material.dart';
+// lib/pages/home.dart
 
+import 'package:flutter/material.dart';
 import '../templates/appbar.dart';
 import '../templates/drawer.dart';
 import '../templates/footer.dart';
